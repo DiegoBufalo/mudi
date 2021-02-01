@@ -2,13 +2,18 @@ package br.com.dbufalo.mudi.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import br.com.dbufalo.mudi.enums.StatusPedido;
 
@@ -25,8 +30,23 @@ public class Pedido {
 	private String urlImagem;
 	private String descricao;
 	
+	@ManyToOne
+	private User user;
+
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status;
+	
+	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "pedido")
+	private List<Oferta> ofertas;
+	
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public String getNomeProduto() {
 		return nomeProduto;
@@ -90,5 +110,13 @@ public class Pedido {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public List<Oferta> getOfertas() {
+		return ofertas;
+	}
+
+	public void setOfertas(List<Oferta> ofertas) {
+		this.ofertas = ofertas;
 	}
 }
